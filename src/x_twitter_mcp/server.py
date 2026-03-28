@@ -367,9 +367,17 @@ async def delete_bookmark(tweet_id: str) -> Dict:
     result = client.remove_bookmark(tweet_id=tweet_id)
     return {"tweet_id": tweet_id, "bookmarked": not result.data["bookmarked"]}
 
-@server.tool(name="delete_all_bookmarks", description="Deletes all bookmarks (simulated)")
+@server.tool(name="delete_all_bookmarks", description="DESTRUCTIVE AND IRREVERSIBLE: Permanently deletes ALL bookmarks one by one. This cannot be undone. Always confirm explicitly with the user before calling this tool.")
 async def delete_all_bookmarks() -> Dict:
-    """Deletes all bookmarks. (Simulated as Twitter API v2 doesn't have a direct endpoint for this. Fetches all bookmarks and deletes them one by one.)"""
+    """Permanently deletes all of the authenticated user's bookmarks. IRREVERSIBLE.
+
+    WARNING: This action cannot be undone. Every bookmark will be permanently
+    removed. You MUST obtain explicit confirmation from the user before calling
+    this tool. Do not call this based on an ambiguous or casual request.
+
+    Simulated: Twitter API v2 has no bulk-delete endpoint, so bookmarks are
+    fetched and deleted one by one.
+    """
     if not check_rate_limit("tweet_actions"):
         raise Exception("Tweet action rate limit exceeded")
     # Twitter API v2 doesn't have a direct endpoint; simulate by fetching and removing.
