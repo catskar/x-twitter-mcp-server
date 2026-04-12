@@ -423,15 +423,15 @@ Below is a list of all tools provided by the `x-twitter-mcp` server, along with 
   Claude will remove the bookmark and confirm the action.
 
 #### `delete_all_bookmarks`
-- **Description**: Deletes all bookmarks (simulated by fetching and removing one by one). Requires `TWITTER_OAUTH2_USER_ACCESS_TOKEN`.
+- **Description**: DESTRUCTIVE AND IRREVERSIBLE. Permanently deletes ALL bookmarks by fetching every page and removing them one by one. Requires `TWITTER_OAUTH2_USER_ACCESS_TOKEN`.
 - **Claude Desktop Example**:
   ```
   Delete all my Twitter bookmarks.
   ```
-  Claude will delete all bookmarks and confirm the action.
+  Claude will confirm with the user first, then delete all bookmarks and report the count.
 
 #### `get_bookmarks`
-- **Description**: Retrieves the authenticated user's bookmarked tweets (up to 800 most recent). Requires `TWITTER_OAUTH2_USER_ACCESS_TOKEN`.
+- **Description**: Retrieves the authenticated user's bookmarked tweets. Returns up to 100 tweets per call; use the `cursor` parameter for pagination. Requires `TWITTER_OAUTH2_USER_ACCESS_TOKEN`.
 - **Claude Desktop Example**:
   ```
   Show my Twitter bookmarks, limit to 25.
