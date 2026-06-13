@@ -44,7 +44,7 @@ def _create_asgi_app() -> Any:
     )
 
     # Inject Smithery config-per-request and map to env vars used by Tweepy setup
-    app = SmitheryConfigMiddleware(app)
+    # app = SmitheryConfigMiddleware(app)
     return app
 
 
