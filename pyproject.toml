@@ -18,7 +18,7 @@ dependencies = [
     "tweepy>=4.15.0",
     "python-dotenv>=0.21.0",
     "uvicorn>=0.30.0",
-    "starlette>=0.37.2"
+    "starlette>=0.37.2",
     "fastapi>=0.111.0"
 ]
 classifiers = [
