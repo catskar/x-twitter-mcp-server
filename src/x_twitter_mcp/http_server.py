@@ -33,8 +33,8 @@ async def handle_messages(scope, receive, send):
     await sse.handle_post_message(scope, receive, send)
 
 # 2. Directly inject them into the low-level router to bypass FastAPI's response wrapper
-app.router.routes.append(Route("/sse", endpoint=handle_sse, methods=["GET"]))
-app.router.routes.append(Route("/messages", endpoint=handle_messages, methods=["POST"]))
+app.mount("/sse", handle_sse)
+app.mount("/messages", handle_messages)
 
 def main():
     port = int(os.environ.get("PORT", 8081))
