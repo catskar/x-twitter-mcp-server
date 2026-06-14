@@ -18,7 +18,7 @@ app.add_middleware(
     expose_headers=["mcp-session-id", "mcp-protocol-version"],
 )
 
-sse = SseServerTransport("/sse")
+sse = SseServerTransport("/")
 
 # 1. Define raw ASGI apps that receive the raw scope, receive, and send components
 async def handle_sse(scope, receive, send):
