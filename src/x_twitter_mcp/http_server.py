@@ -26,7 +26,7 @@ async def handle_sse(scope, receive, send):
         await server.run(
             read_stream,
             write_stream,
-            server.create_initialization_options()
+options = server._server.create_initialization_options()
         )
 
 async def handle_messages(scope, receive, send):
