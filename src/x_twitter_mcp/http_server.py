@@ -1,12 +1,14 @@
 import os
 import uvicorn
-from fastapi import FastAPI, Request
-from mcp.server.sse import SseServerTransport
+from fastapi import FastAPI
+from starlette.routing import Route
 from starlette.middleware.cors import CORSMiddleware
-from server import server
+from mcp.server.sse import SseServerTransport
+from server import server # Assumes this is your configured mcp.server.Server instance
 
 app = FastAPI()
 
+# Standard FastAPI middleware works completely fine here
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,18 +19,21 @@ app.add_middleware(
 
 sse = SseServerTransport("/messages")
 
-@app.get("/sse")
-async def handle_sse(request: Request):
-    async with sse.connect_sse(request.scope, request.receive, request._send) as (read_stream, write_stream):
+# 1. Define raw ASGI apps that receive the raw scope, receive, and send components
+async def handle_sse(scope, receive, send):
+    async with sse.connect_sse(scope, receive, send) as (read_stream, write_stream):
         await server.run(
             read_stream,
             write_stream,
             server.create_initialization_options()
         )
 
-@app.post("/messages")
-async def handle_messages(request: Request):
-    await sse.handle_post_message(request.scope, request.receive, request._send)
+async def handle_messages(scope, receive, send):
+    await sse.handle_post_message(scope, receive, send)
+
+# 2. Directly inject them into the low-level router to bypass FastAPI's response wrapper
+app.router.routes.append(Route("/sse", endpoint=handle_sse, methods=["GET"]))
+app.router.routes.append(Route("/messages", endpoint=handle_messages, methods=["POST"]))
 
 def main():
     port = int(os.environ.get("PORT", 8081))
