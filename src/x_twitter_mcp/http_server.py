@@ -4,7 +4,8 @@ from fastapi import FastAPI
 from starlette.routing import Route
 from starlette.middleware.cors import CORSMiddleware
 from mcp.server.sse import SseServerTransport
-from server import server # Assumes this is your configured mcp.server.Server instance
+from x_twitter_mcp.server import server
+
 
 app = FastAPI()
 
