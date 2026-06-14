@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from mcp.server.sse import SseServerTransport
 from starlette.middleware.cors import CORSMiddleware
-from .server import server
+from server import server
 
 app = FastAPI()
 
