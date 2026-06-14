@@ -26,7 +26,7 @@ async def handle_sse(scope, receive, send):
         await server.run(
             read_stream,
             write_stream,
-options = server._server.create_initialization_options()
+server._mcp_server.create_initialization_options()
         )
 
 async def handle_messages(scope, receive, send):
